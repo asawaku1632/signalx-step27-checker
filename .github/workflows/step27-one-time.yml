@@ -1,0 +1,38 @@
+name: STEP27 One-Time Morning Check
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '35 0 * * *'
+permissions:
+  contents: read
+jobs:
+  check:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '35 0 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Guard single research date (JST)
+        id: guard
+        shell: bash
+        run: |
+          today="$(TZ=Asia/Tokyo date +%F)"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" || "$today" == "2026-10-27" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "One-time test expired; no API access."
+          fi
+      - name: Check STEP27
+        if: steps.guard.outputs.run == 'true'
+        run: python step27_check.py
+      - name: Upload diagnostic report
+        if: steps.guard.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step27-result
+          path: step27-result.json
+          retention-days: 3
