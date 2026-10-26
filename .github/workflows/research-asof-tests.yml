@@ -6,6 +6,8 @@ on:
       - 'research/test_asof_validator.py'
       - 'research/compare.py'
       - 'research/test_compare.py'
+      - 'research/audit_morning_failures.py'
+      - 'research/test_audit_morning_failures.py'
       - '.github/workflows/research-asof-tests.yml'
   workflow_dispatch:
 permissions:
