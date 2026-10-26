@@ -8,6 +8,8 @@ on:
       - 'research/test_compare.py'
       - 'research/audit_morning_failures.py'
       - 'research/test_audit_morning_failures.py'
+      - 'research/diagnose_chart_metadata.py'
+      - 'research/test_diagnose_chart_metadata.py'
       - '.github/workflows/research-asof-tests.yml'
   workflow_dispatch:
 permissions:
