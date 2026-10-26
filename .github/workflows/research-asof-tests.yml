@@ -4,6 +4,8 @@ on:
     paths:
       - 'research/asof_validator.py'
       - 'research/test_asof_validator.py'
+      - 'research/compare.py'
+      - 'research/test_compare.py'
       - '.github/workflows/research-asof-tests.yml'
   workflow_dispatch:
 permissions:
@@ -17,4 +19,4 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run offline tests
-        run: python -m unittest discover -s research -p 'test_asof_validator.py' -v
+        run: python -m unittest discover -s research -p 'test_*.py' -v
